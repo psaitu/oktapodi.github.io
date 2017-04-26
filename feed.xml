@@ -5,7 +5,7 @@
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://example.com/</link>
     <description></description>
-    <pubDate>Wed, 26 Apr 2017 06:39:51 +0530</pubDate>
+    <pubDate>Wed, 26 Apr 2017 10:29:29 +0530</pubDate>
     
       <item>
         <title>Animated gradient layers in Swift</title>
