@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>Animated gradient layers in Swift | Implement</title>
+	<meta name="description" content="IntroductionIn this blog post we will look at how to use the CAGradientLayer API and create some cool animated gradient effects like the ones seen inapps lik...">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-Frame-Options" content="sameorigin">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css">
+
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="http://example.com/2017/04/26/working-with-gradient-layers-in-swift.html">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="Implement" href="http://example.com/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+	
+
+	<!-- KaTeX -->
+	
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.js"></script>
+	
+
+	<!-- Google Analytics -->
+	
+</head>
+
+  <body>
+    <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/img/avatar.png" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">Implement</a>
+		</h1>
+	</div>
+	<nav class="site-nav">
+		<ul>
+			
+			
+			
+			
+			<li>
+				<a class="page-link" href="/about/">
+					About
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+			
+			
+			<!-- Social icons from Font Awesome, if enabled -->
+			
+
+
+<li>
+	<a href="mailto:prabhu.saitu@gmail.com" title="Email">
+		<i class="fa fa-fw fa-envelope"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.facebook.com/prabhu" title="Follow on Facebook">
+		<i class="fa fa-fw fa-facebook"></i>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://github.com/oktapodi" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="http://instagram.com/prabhu.jpg" title="Follow on Instagram">
+		<i class="fa fa-fw fa-instagram"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/prabhu_irl" title="Follow on Twitter">
+		<i class="fa fa-fw fa-twitter"></i>
+	</a>
+</li>
+
+
+
+
+
+
+		</ul>
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">Animated gradient layers in Swift</h1>
+    <p class="meta">
+    April 26, 2017
+    
+    </p>
+  </header>
+  <section class="post-content"><h3 id="introduction">Introduction</h3>
+<p>In this blog post we will look at how to use the CAGradientLayer API and create some cool animated gradient effects like the ones seen in
+apps like instagram.</p>
+
+<h3 id="cagradientlayer">CAGradientLayer</h3>
+
+<p>The CAGradientLayer is a CALayer that allows us to draw gradients. It can accept any number of colors as input and blend those colors
+together to render a continuous gradient of colors.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// A Basic Implementation</span>
+<span class="k">let</span> <span class="nv">gradient</span> <span class="o">=</span> <span class="kt">CAGradientLayer</span><span class="p">()</span>
+<span class="n">gradient</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
+<span class="n">gradient</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="mi">48</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="mi">62</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="mi">103</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cgColor</span><span class="p">,</span>
+    <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="mi">244</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="mi">88</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="mi">53</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cgColor</span>
+<span class="p">]</span>
+<span class="n">gradient</span><span class="o">.</span><span class="n">startPoint</span> <span class="o">=</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">gradient</span><span class="o">.</span><span class="n">endPoint</span> <span class="o">=</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="nf">addSublayer</span><span class="p">(</span><span class="n">gradient</span><span class="p">)</span></code></pre></figure>
+
+<p>The code above creates a diagonal gradient between two colors. The direction of the gradient can be controlled by the adjusting the
+start and end points of the gradient.</p>
+
+<p><img src="/img/gradient01.png" alt="Gradient" /></p>
+
+<h3 id="animating-gradients">Animating Gradients</h3>
+
+<p>Since all CALayer proporties are animatable we can create a CABasicAnimation on the colors property of the CAGradientLayer to show a smooth
+transition from one gradient to another.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">gradientChangeAnimation</span> <span class="o">=</span> <span class="kt">CABasicAnimation</span><span class="p">(</span><span class="nv">keyPath</span><span class="p">:</span> <span class="s">"colors"</span><span class="p">)</span>
+<span class="n">gradientChangeAnimation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="n">gradientChangeAnimation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="mi">244</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="mi">88</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="mi">53</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cgColor</span><span class="p">,</span>
+    <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="mi">196</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="mi">70</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="mi">107</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cgColor</span>
+    <span class="p">]</span>
+<span class="n">gradientChangeAnimation</span><span class="o">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span>
+<span class="n">gradientChangeAnimation</span><span class="o">.</span><span class="n">isRemovedOnCompletion</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">gradient</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="n">gradientChangeAnimation</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="s">"colorChange"</span><span class="p">)</span></code></pre></figure>
+
+<p>The code above changes the animates the gradient over a duration of 5 seconds.</p>
+
+<iframe width="500" height="281" src="http://player.vimeo.com/video/214765441 " frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+
+<h3 id="continuous-animations">Continuous Animations</h3>
+
+<p>We can expand on this approach and create a continuous looping animation where one gradient seamlessly blends into another over time. To implment
+a continuous gradient we must extend our view controller to conform to the <strong>CAAnimationDelegate</strong> protocol. An example of such an implementation 
+is shown here.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+    
+    <span class="k">let</span> <span class="nv">gradient</span> <span class="o">=</span> <span class="kt">CAGradientLayer</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">gradientSet</span> <span class="o">=</span> <span class="p">[[</span><span class="kt">CGColor</span><span class="p">]]()</span>
+    <span class="k">var</span> <span class="nv">currentGradient</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">let</span> <span class="nv">gradientOne</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="mi">48</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="mi">62</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="mi">103</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cgColor</span>
+    <span class="k">let</span> <span class="nv">gradientTwo</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="mi">244</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="mi">88</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="mi">53</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cgColor</span>
+    <span class="k">let</span> <span class="nv">gradientThree</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="mi">196</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="mi">70</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="mi">107</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cgColor</span>
+    
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+        <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
+    <span class="p">}</span>
+    
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+        
+        <span class="n">gradientSet</span><span class="o">.</span><span class="nf">append</span><span class="p">([</span><span class="n">gradientOne</span><span class="p">,</span> <span class="n">gradientTwo</span><span class="p">])</span>
+        <span class="n">gradientSet</span><span class="o">.</span><span class="nf">append</span><span class="p">([</span><span class="n">gradientTwo</span><span class="p">,</span> <span class="n">gradientThree</span><span class="p">])</span>
+        <span class="n">gradientSet</span><span class="o">.</span><span class="nf">append</span><span class="p">([</span><span class="n">gradientThree</span><span class="p">,</span> <span class="n">gradientOne</span><span class="p">])</span>
+        
+        
+        <span class="n">gradient</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="n">gradient</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">gradientSet</span><span class="p">[</span><span class="n">currentGradient</span><span class="p">]</span>
+        <span class="n">gradient</span><span class="o">.</span><span class="n">startPoint</span> <span class="o">=</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">gradient</span><span class="o">.</span><span class="n">endPoint</span> <span class="o">=</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">gradient</span><span class="o">.</span><span class="n">drawsAsynchronously</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="nf">addSublayer</span><span class="p">(</span><span class="n">gradient</span><span class="p">)</span>
+        
+        <span class="nf">animateGradient</span><span class="p">()</span>
+        
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">animateGradient</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">currentGradient</span> <span class="o">&lt;</span> <span class="n">gradientSet</span><span class="o">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">{</span>
+            <span class="n">currentGradient</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">currentGradient</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="p">}</span>
+        
+        <span class="k">let</span> <span class="nv">gradientChangeAnimation</span> <span class="o">=</span> <span class="kt">CABasicAnimation</span><span class="p">(</span><span class="nv">keyPath</span><span class="p">:</span> <span class="s">"colors"</span><span class="p">)</span>
+        <span class="n">gradientChangeAnimation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">5.0</span>
+        <span class="n">gradientChangeAnimation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="n">gradientSet</span><span class="p">[</span><span class="n">currentGradient</span><span class="p">]</span>
+        <span class="n">gradientChangeAnimation</span><span class="o">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span>
+        <span class="n">gradientChangeAnimation</span><span class="o">.</span><span class="n">isRemovedOnCompletion</span> <span class="o">=</span> <span class="kc">false</span>
+        <span class="n">gradient</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="n">gradientChangeAnimation</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="s">"colorChange"</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="kd">extension</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">CAAnimationDelegate</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">animationDidStop</span><span class="p">(</span><span class="n">_</span> <span class="nv">anim</span><span class="p">:</span> <span class="kt">CAAnimation</span><span class="p">,</span> <span class="n">finished</span> <span class="nv">flag</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">flag</span> <span class="p">{</span>
+            <span class="n">gradient</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">gradientSet</span><span class="p">[</span><span class="n">currentGradient</span><span class="p">]</span>
+            <span class="nf">animateGradient</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>In the code above we start off by creating 3 different gradients. We the append them in an array called <strong>gradientSet</strong>, out animation will loop through the array and blend one gradient into another. We keep a simple index <strong>currentGradient</strong> to keep track of which gradient is to be displayed and change the <strong>toValue</strong> of our <strong>gradientAnimation</strong> to that particular gradient. Since we’re going to be rerendering our gradientlayer we set the <strong>drawAsynchronously</strong> flag to true.</p>
+
+<iframe width="500" height="281" src="http://player.vimeo.com/video/214767743 " frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>CAGradientLayer is a powerful API and can be used in conjuntion with other CALayer APIs provided by iOS to create some really cool effects in a very simple
+concise manner.</p>
+</section>
+</article>
+
+<!-- Post navigation -->
+
+
+<!-- Disqus -->
+
+
+<!-- Muut -->
+
+    </div>
+    
+<script src="/js/katex_init.js"></script>
+
+
+
+<footer class="site-footer">
+	<p class="text">Powered by <a href="http://jekyllrb.com">Jekyll</a> with <a href="https://rohanchandra.github.io/project/type/">Type Theme</a>
+</p>
+</footer>
+
+
+  </body>
+</html>
