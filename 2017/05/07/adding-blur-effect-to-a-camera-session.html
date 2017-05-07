@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>Adding a blur effect to a custom camera session in iOS (Swift 3) | Implement</title>
+	<meta name="description" content="IntroductionIn this blog post we will look at creating a custom camera session and adding a blur effect over it. This effect can be seen in apps like Snapcha...">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-Frame-Options" content="sameorigin">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css">
+
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="https://oktapodi.github.io/2017/05/07/adding-blur-effect-to-a-camera-session.html">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="Implement" href="https://oktapodi.github.io/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+	
+
+	<!-- KaTeX -->
+	
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.js"></script>
+	
+
+	<!-- Google Analytics -->
+	
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-98096444-1', 'auto');
+	ga('send', 'pageview');
+	</script>
+	
+</head>
+
+  <body>
+    <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/img/avatar.png" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">Implement</a>
+		</h1>
+	</div>
+	<nav class="site-nav">
+		<ul>
+			
+			
+			
+			
+			<li>
+				<a class="page-link" href="/about/">
+					About
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+			
+			
+			<!-- Social icons from Font Awesome, if enabled -->
+			
+
+
+<li>
+	<a href="mailto:prabhu.saitu@gmail.com" title="Email">
+		<i class="fa fa-fw fa-envelope"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.facebook.com/prabhu" title="Follow on Facebook">
+		<i class="fa fa-fw fa-facebook"></i>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://github.com/oktapodi" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="http://instagram.com/prabhu.jpg" title="Follow on Instagram">
+		<i class="fa fa-fw fa-instagram"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/prabhu_irl" title="Follow on Twitter">
+		<i class="fa fa-fw fa-twitter"></i>
+	</a>
+</li>
+
+
+
+
+
+
+		</ul>
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">Adding a blur effect to a custom camera session in iOS (Swift 3)</h1>
+    <p class="meta">
+    May 7, 2017
+    
+    </p>
+  </header>
+  <section class="post-content"><h3 id="introduction">Introduction</h3>
+<p>In this blog post we will look at creating a custom camera session and adding a blur effect over it. This effect can be seen in apps like Snapchat while shipping down to show the user profile view.</p>
+
+<p><img src="/img/example_snapchat.png" alt="Example (Snapchat)" /></p>
+
+<h3 id="camera-view">Camera View</h3>
+<p>With iOS 10 and Swift 3, Apple has simplified the process of creating your custom camera implementation. We begin by creating references to our AVCaptureSession.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">AVCaptureSession</span> <span class="o">=</span> <span class="kt">AVCaptureSession</span><span class="p">()</span></code></pre></figure>
+
+<p>In our viewDidLoad() or viewWillAppear() we begin the setup of our session, and capture device.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">session</span><span class="o">.</span><span class="n">sessionPreset</span> <span class="o">=</span> <span class="kt">AVCaptureSessionPresetHigh</span>
+<span class="k">if</span> <span class="k">let</span> <span class="nv">device</span> <span class="o">=</span> <span class="kt">AVCaptureDevice</span><span class="o">.</span><span class="nf">defaultDevice</span><span class="p">(</span><span class="nv">withMediaType</span><span class="p">:</span> <span class="kt">AVMediaTypeVideo</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">do</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="n">session</span><span class="o">.</span><span class="nf">addInput</span><span class="p">(</span><span class="kt">AVCaptureDeviceInput</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="n">device</span><span class="p">))</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="p">)</span>
+    <span class="p">}</span>            
+<span class="p">}</span></code></pre></figure>
+
+<p>Now we setup our preview layer which will show the preview from our camera.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">guard</span> <span class="k">let</span> <span class="nv">previewLayer</span> <span class="o">=</span> <span class="kt">AVCaptureVideoPreviewLayer</span><span class="p">(</span><span class="nv">session</span><span class="p">:</span> <span class="n">session</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+
+<span class="c1">// Add the preview layer to our view</span>
+<span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="nf">addSublayer</span><span class="p">(</span><span class="n">previewLayer</span><span class="p">)</span>
+<span class="n">previewLayer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">bounds</span></code></pre></figure>
+
+<p>Once the preview layer is setup calling session.startRunning() should start the camera and display the output from the camera on our view.</p>
+
+<h3 id="blur-view">Blur View</h3>
+<p>Once we have our camera setup, adding the blur view is quite simple. UIKit provides a visual effects view API that allows us to add some interesting effects to our views.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">blur</span> <span class="o">=</span> <span class="kt">UIBlurEffect</span><span class="p">(</span><span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="n">dark</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">blurView</span> <span class="o">=</span> <span class="kt">UIVisualEffectView</span><span class="p">(</span><span class="nv">effect</span><span class="p">:</span> <span class="n">blur</span><span class="p">)</span>
+<span class="n">blurView</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
+<span class="n">blurView</span><span class="o">.</span><span class="n">autoresizingMask</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="n">flexibleWidth</span><span class="p">,</span> <span class="o">.</span><span class="n">flexibleHeight</span><span class="p">]</span>
+<span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">blurView</span><span class="p">)</span></code></pre></figure>
+
+<p>In the code above we start by creating a blur effect with a dark style and then instantiate a visual effects view with the blur effect. Finally we add the visual effects view to our main view. The results are pretty awesome.</p>
+
+<p><img src="/img/blur_effect_example.png" alt="Blur Effect" /></p>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>Adding a blur effect to a realtime camera output is quite easy and can really enhance the user experience. This effect can be used as a background to toerh views, you can add a pan gesture recognizer and change the alpha values of the blur view to control the blur effect (like how snapchat does). The possibilities are endless.</p>
+
+<h3 id="source-code">Source Code</h3>
+<p>Here is the full view controller source code.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">UIKit</span>
+
+<span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+    
+    <span class="k">let</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">AVCaptureSession</span> <span class="o">=</span> <span class="kt">AVCaptureSession</span><span class="p">()</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+    <span class="p">}</span>
+    
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+        
+        <span class="n">session</span><span class="o">.</span><span class="n">sessionPreset</span> <span class="o">=</span> <span class="kt">AVCaptureSessionPresetHigh</span>
+        
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">device</span> <span class="o">=</span> <span class="kt">AVCaptureDevice</span><span class="o">.</span><span class="nf">defaultDevice</span><span class="p">(</span><span class="nv">withMediaType</span><span class="p">:</span> <span class="kt">AVMediaTypeVideo</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">do</span> <span class="p">{</span>
+                <span class="k">try</span> <span class="n">session</span><span class="o">.</span><span class="nf">addInput</span><span class="p">(</span><span class="kt">AVCaptureDeviceInput</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="n">device</span><span class="p">))</span>
+                
+            <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="p">)</span>
+            <span class="p">}</span>
+            
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">previewLayer</span> <span class="o">=</span> <span class="kt">AVCaptureVideoPreviewLayer</span><span class="p">(</span><span class="nv">session</span><span class="p">:</span> <span class="n">session</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"no preview layer"</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="p">}</span>
+            
+            <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="nf">addSublayer</span><span class="p">(</span><span class="n">previewLayer</span><span class="p">)</span>
+            <span class="n">previewLayer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">bounds</span>
+            
+        <span class="p">}</span>
+        
+        
+        <span class="n">session</span><span class="o">.</span><span class="nf">startRunning</span><span class="p">()</span>
+        
+        <span class="k">let</span> <span class="nv">blur</span> <span class="o">=</span> <span class="kt">UIBlurEffect</span><span class="p">(</span><span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="n">regular</span><span class="p">)</span>
+        <span class="k">let</span> <span class="nv">blurView</span> <span class="o">=</span> <span class="kt">UIVisualEffectView</span><span class="p">(</span><span class="nv">effect</span><span class="p">:</span> <span class="n">blur</span><span class="p">)</span>
+        <span class="n">blurView</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="n">blurView</span><span class="o">.</span><span class="n">autoresizingMask</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="n">flexibleWidth</span><span class="p">,</span> <span class="o">.</span><span class="n">flexibleHeight</span><span class="p">]</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">blurView</span><span class="p">)</span>
+        
+        
+    <span class="p">}</span>
+
+<span class="p">}</span></code></pre></figure>
+
+</section>
+</article>
+
+<!-- Post navigation -->
+
+
+<!-- Disqus -->
+
+
+<!-- Muut -->
+
+    </div>
+    
+<script src="/js/katex_init.js"></script>
+
+
+
+<footer class="site-footer">
+	<p class="text">Powered by <a href="http://jekyllrb.com">Jekyll</a> with <a href="https://rohanchandra.github.io/project/type/">Type Theme</a>
+</p>
+</footer>
+
+
+  </body>
+</html>
