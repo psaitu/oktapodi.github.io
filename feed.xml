@@ -5,7 +5,7 @@
     <atom:link href="https://oktapodi.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <link>https://oktapodi.github.io/</link>
     <description></description>
-    <pubDate>Sun, 07 May 2017 19:01:40 +0530</pubDate>
+    <pubDate>Sun, 07 May 2017 19:08:49 +0530</pubDate>
     
       <item>
         <title>Adding a blur effect to a custom camera session in iOS (Swift 3)</title>
@@ -17,7 +17,7 @@
 &lt;p&gt;&lt;img src=&quot;/img/example_snapchat.png&quot; alt=&quot;Example (Snapchat)&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;camera-view&quot;&gt;Camera View&lt;/h3&gt;
-&lt;p&gt;With iOS 10 and Swift 3, Apple has simplified the process of creating your custom camera implementation. We begin by creating references to our AVCaptureSession.&lt;/p&gt;
+&lt;p&gt;With iOS 10 and Swift 3, Apple has simplified the process of creating your custom camera implementation. We begin by creating reference to our AVCaptureSession.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVCaptureSession&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVCaptureSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
@@ -58,7 +58,7 @@
 &lt;p&gt;&lt;img src=&quot;/img/blur_example.png&quot; alt=&quot;Blur Effect&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
-&lt;p&gt;Adding a blur effect to a realtime camera output is quite easy and can really enhance the user experience. This effect can be used as a background to toerh views, you can add a pan gesture recognizer and change the alpha values of the blur view to control the blur effect (like how snapchat does). The possibilities are endless.&lt;/p&gt;
+&lt;p&gt;Adding a blur effect to a realtime camera output is quite easy and can really enhance the user experience. This effect can be used as a background view, you can add a pan gesture recognizer and change the alpha values of the blur view to control the blur effect (like how snapchat does). The possibilities are endless.&lt;/p&gt;
 
 &lt;h3 id=&quot;source-code&quot;&gt;Source Code&lt;/h3&gt;
 &lt;p&gt;Here is the full view controller source code.&lt;/p&gt;
