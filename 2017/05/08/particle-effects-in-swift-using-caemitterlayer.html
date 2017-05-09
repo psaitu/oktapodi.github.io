@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>Particle effects in swift using CAEmitterLayer | Implement</title>
+	<meta name="description" content="IntroductionCAEmitterLayer is the api of choice to do particle effects in UIKit. Its powerful and very often overlooked. A lot of developers use 3rd party li...">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-Frame-Options" content="sameorigin">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css">
+
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="https://oktapodi.github.io/2017/05/08/particle-effects-in-swift-using-caemitterlayer.html">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="Implement" href="https://oktapodi.github.io/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+	
+
+	<!-- KaTeX -->
+	
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.js"></script>
+	
+
+	<!-- Google Analytics -->
+	
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-98096444-1', 'auto');
+	ga('send', 'pageview');
+	</script>
+	
+</head>
+
+  <body>
+    <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/img/avatar.png" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">Implement</a>
+		</h1>
+	</div>
+	<nav class="site-nav">
+		<ul>
+			
+			
+			
+			
+			<li>
+				<a class="page-link" href="/about/">
+					About
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+			
+			
+			<!-- Social icons from Font Awesome, if enabled -->
+			
+
+
+<li>
+	<a href="mailto:prabhu.saitu@gmail.com" title="Email">
+		<i class="fa fa-fw fa-envelope"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.facebook.com/prabhu" title="Follow on Facebook">
+		<i class="fa fa-fw fa-facebook"></i>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://github.com/oktapodi" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="http://instagram.com/prabhu.jpg" title="Follow on Instagram">
+		<i class="fa fa-fw fa-instagram"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/prabhu_irl" title="Follow on Twitter">
+		<i class="fa fa-fw fa-twitter"></i>
+	</a>
+</li>
+
+
+
+
+
+
+		</ul>
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">Particle effects in swift using CAEmitterLayer</h1>
+    <p class="meta">
+    May 8, 2017
+    
+    </p>
+  </header>
+  <section class="post-content"><h3 id="introduction">Introduction</h3>
+<p>CAEmitterLayer is the api of choice to do particle effects in UIKit. Its powerful and very often overlooked. A lot of developers use 3rd party libraries to achieve effects that can be easily created using this powerful API.</p>
+
+<p>We will be creating the confetti effect thats displayed on the sign up screen of the houseparty app.</p>
+
+<iframe src="https://player.vimeo.com/video/216524518" width="640" height="360" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+
+<h3 id="caemitterlayer-and-caemittercell">CAEmitterLayer and CAEmitterCell</h3>
+<p>UIKit provides 2 classes for us to work with particle effects, CAEmitterLayer and CAEmitterCell. The CAEmitterLayer is the layer that emits, animates and  renders the particle system. The CAEmitterCell represents the source of particles and defines the direction and properties of the emitted particles.</p>
+
+<h3 id="setup">Setup</h3>
+<p>Lets begin with an empty xcode project. Start by creating a CAEmitterLayer in your main view controller</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">var</span> <span class="nv">emitter</span> <span class="o">=</span> <span class="kt">CAEmitterLayer</span><span class="p">()</span>
+<span class="n">emitter</span><span class="o">.</span><span class="n">emitterPosition</span> <span class="o">=</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">emitter</span><span class="o">.</span><span class="n">emitterShape</span> <span class="o">=</span> <span class="n">kCAEmitterLayerLine</span>
+<span class="n">emitter</span><span class="o">.</span><span class="n">emitterSize</span> <span class="o">=</span> <span class="kt">CGSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="n">emitter</span><span class="o">.</span><span class="n">emitterCells</span> <span class="o">=</span> <span class="nf">generateEmitterCells</span><span class="p">()</span>
+<span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="nf">addSublayer</span><span class="p">(</span><span class="n">emitter</span><span class="p">)</span></code></pre></figure>
+
+<p>We create an emitter layer and place it outside the visible bounds of the screen. And then add it as a sublayer of our main view. The main particle generation logic is placed in the generateEmitterCells() method.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">private</span> <span class="kd">func</span> <span class="nf">generateEmitterCells</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">CAEmitterCell</span><span class="p">]</span> <span class="p">{</span>
+<span class="k">var</span> <span class="nv">cells</span><span class="p">:[</span><span class="kt">CAEmitterCell</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kt">CAEmitterCell</span><span class="p">]()</span>
+<span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="mi">16</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">cell</span> <span class="o">=</span> <span class="kt">CAEmitterCell</span><span class="p">()</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">birthRate</span> <span class="o">=</span> <span class="mf">4.0</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">lifetime</span> <span class="o">=</span> <span class="mf">14.0</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">lifetimeRange</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="nf">getRandomVelocity</span><span class="p">())</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">velocityRange</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">emissionLongitude</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="kt">Double</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">emissionRange</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">spin</span> <span class="o">=</span> <span class="mf">3.5</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">spinRange</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="nf">getNextColor</span><span class="p">(</span><span class="nv">i</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="nf">getNextImage</span><span class="p">(</span><span class="nv">i</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">scaleRange</span> <span class="o">=</span> <span class="mf">0.25</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mf">0.1</span>   
+    <span class="n">cells</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>    
+<span class="p">}</span>  
+    <span class="k">return</span> <span class="n">cells</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We create 16 emitter cells, i’m using 4 images (Rounded Rectangle, Triangle, Circle, Swirl) i add the images to the cell.contents via the getNextImage() method. <em>When adding the images to your assests make sure to select Render As Template Image in your attributes inspector</em>. We apply a different tint color to the images using the cell.color property. And thats it the code above gives us an effect very smillar to the one found in the house party app.</p>
+
+<p><img src="/img/house_party_sample.png" alt="Confetti Example" /></p>
+
+<p>Here is a link to the video of how it works</p>
+
+<iframe src="https://player.vimeo.com/video/216601206" width="640" height="360" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>The core image layers provided by UIKit are often overlooked. They provide a robust api for creating beautiful particle, gradient and image effects. <a href="https://oktapodi.github.io/img/HousepartyParticles.zip">The complete source code of the above implementation can be found here.</a></p>
+
+</section>
+</article>
+
+<!-- Post navigation -->
+
+
+<!-- Disqus -->
+
+
+<!-- Muut -->
+
+    </div>
+    
+<script src="/js/katex_init.js"></script>
+
+
+
+<footer class="site-footer">
+	<p class="text">Powered by <a href="http://jekyllrb.com">Jekyll</a> with <a href="https://rohanchandra.github.io/project/type/">Type Theme</a>
+</p>
+</footer>
+
+
+  </body>
+</html>
