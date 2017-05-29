@@ -5,14 +5,16 @@
     <atom:link href="https://oktapodi.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <link>https://oktapodi.github.io/</link>
     <description></description>
-    <pubDate>Mon, 29 May 2017 20:50:41 +0530</pubDate>
+    <pubDate>Mon, 29 May 2017 20:56:27 +0530</pubDate>
     
       <item>
         <title>Getting Started With dlib on iOS</title>
         <link>https://oktapodi.github.io/2017/05/29/getting-started-with-dlib-on-ios.html</link>
         <guid isPermaLink="true">https://oktapodi.github.io/2017/05/29/getting-started-with-dlib-on-ios.html</guid>
         <description>&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;dlib is a C++ machine learning library that is used to create powerful real world application. Since its a C++ library it might seem a little hard to get it working with you iOS project. This post aims to explain how to add dlib to an existing iOS project.
+&lt;p&gt;dlib is a C++ machine learning library that is used to create powerful real world application. It is used in many computer vision and machine learning applications, it can be used to detect facial landmarks such as eyes, nose, lips etc which is how snapchat lenses work. 
+&lt;img src=&quot;/img/snapchat_lens_example.jpg&quot; alt=&quot;Snapchat lenses example&quot; /&gt;
+Since its a C++ library it might seem a little hard to get it working with you iOS project. This post aims to explain how to add dlib to an existing iOS project.
 &lt;em&gt;The process involves a bit of work so its important that one follows all the steps in order.&lt;/em&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;building-dlib&quot;&gt;Building dlib&lt;/h3&gt;
