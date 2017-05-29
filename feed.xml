@@ -5,7 +5,7 @@
     <atom:link href="https://oktapodi.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <link>https://oktapodi.github.io/</link>
     <description></description>
-    <pubDate>Mon, 29 May 2017 17:29:29 +0530</pubDate>
+    <pubDate>Mon, 29 May 2017 20:50:41 +0530</pubDate>
     
       <item>
         <title>Getting Started With dlib on iOS</title>
@@ -17,7 +17,7 @@
 
 &lt;h3 id=&quot;building-dlib&quot;&gt;Building dlib&lt;/h3&gt;
 &lt;p&gt;Assuming we already have an iOS project setup we will begin by downloading and building dlib from the dlib website.
-&lt;a href=&quot;http://dlib.net/files/dlib-19.4.tar.bz2&quot;&gt;Start by downloading dlib from here&lt;/a&gt; and save it in a directory u can work from.
+&lt;a href=&quot;http://dlib.net/files/dlib-19.4.tar.bz2&quot;&gt;Start by downloading dlib from here&lt;/a&gt; and save it in a directory you can work from.
 We will need to have X11, and CMake installed on our system. If you do not have cmake you can istall it via homebrew.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell_session&quot; data-lang=&quot;shell_session&quot;&gt;&lt;span class=&quot;err&quot;&gt;brew install cmake&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
