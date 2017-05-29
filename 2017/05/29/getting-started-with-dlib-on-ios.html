@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>Getting Started With dlib on iOS | Implement</title>
+	<meta name="description" content="Introductiondlib is a C++ machine learning library that is used to create powerful real world application. Since its a C++ library it might seem a little har...">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-Frame-Options" content="sameorigin">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css">
+
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="https://oktapodi.github.io/2017/05/29/getting-started-with-dlib-on-ios.html">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="Implement" href="https://oktapodi.github.io/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+	
+
+	<!-- KaTeX -->
+	
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.js"></script>
+	
+
+	<!-- Google Analytics -->
+	
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-98096444-1', 'auto');
+	ga('send', 'pageview');
+	</script>
+	
+</head>
+
+  <body>
+    <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/img/avatar.png" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">Implement</a>
+		</h1>
+	</div>
+	<nav class="site-nav">
+		<ul>
+			
+			
+			
+			
+			<li>
+				<a class="page-link" href="/about/">
+					About
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+			
+			
+			<!-- Social icons from Font Awesome, if enabled -->
+			
+
+
+<li>
+	<a href="mailto:prabhu.saitu@gmail.com" title="Email">
+		<i class="fa fa-fw fa-envelope"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.facebook.com/prabhu" title="Follow on Facebook">
+		<i class="fa fa-fw fa-facebook"></i>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://github.com/oktapodi" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="http://instagram.com/prabhu.jpg" title="Follow on Instagram">
+		<i class="fa fa-fw fa-instagram"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/prabhu_irl" title="Follow on Twitter">
+		<i class="fa fa-fw fa-twitter"></i>
+	</a>
+</li>
+
+
+
+
+
+
+		</ul>
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">Getting Started With dlib on iOS</h1>
+    <p class="meta">
+    May 29, 2017
+    
+    </p>
+  </header>
+  <section class="post-content"><h3 id="introduction">Introduction</h3>
+<p>dlib is a C++ machine learning library that is used to create powerful real world application. Since its a C++ library it might seem a little hard to get it working with you iOS project. This post aims to explain how to add dlib to an existing iOS project.
+<em>The process involves a bit of work so its important that one follows all the steps in order.</em></p>
+
+<h3 id="building-dlib">Building dlib</h3>
+<p>Assuming we already have an iOS project setup we will begin by downloading and building dlib from the dlib website.
+<a href="http://dlib.net/files/dlib-19.4.tar.bz2">Start by downloading dlib from here</a> and save it in a directory u can work from.
+We will need to have X11, and CMake installed on our system. If you do not have cmake you can istall it via homebrew.</p>
+
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">brew install cmake</span></code></pre></figure>
+
+<ul>
+  <li>Navigate to the examples folder inside the dlib folder via your terminal.</li>
+  <li>Create a new folder called ‘build’</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">mkdir build &amp;&amp; cd build</span></code></pre></figure>
+
+<ul>
+  <li>Run the following commands</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">cmake -G Xcode ..</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">cmake --build . --config Release</span></code></pre></figure>
+
+<p>An Xcode project will be created under build/dlib_build</p>
+
+<p><img src="/img/dlib_ss_01.png" alt="Dlib Xcode Project" /></p>
+
+<p>Now that we have dlib built and setup lets start adding it to our Xcode project.</p>
+
+<h3 id="adding-dlib-to-your-xcode-project">Adding dlib to your xcode project</h3>
+
+<p>In the root of your Xcode project create a folder called ‘lib’.
+Copy the ‘libdlib.a’ file from the dlib xcode project and paste it into the ‘lib’ folder.
+Copy the ‘dlib’ folder from the ‘dlib-19.2’ folder and paste it into the ‘lib’ folder.</p>
+
+<p>Drag the libdlib.a file from the ‘lib’ folder and drop it into ur Xcode project. Once that is done it should show up in your linked libraries and frameworks section of ur Xcode project. This is all the files thats required to add dlib to your Xcode project but if you try to compile, it will not work because we need to set up some compile time flags and add library search paths for xcode to be able to compile the dlib library along with your app.</p>
+
+<h3 id="configuration">Configuration</h3>
+
+<p>In your Xcode project open ‘Build Settings’ tab and add the following under ‘Library Search Paths’ and ‘Header Search Paths’</p>
+
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">$(PROJECT_DIR)/lib</span></code></pre></figure>
+
+<p>This will let Xcode know where the dlib files are.</p>
+
+<p>Next we need to add some preprocessor macros to help Xcode xompile the dlib files properly.</p>
+
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">DLIB_NO_GUI_SUPPORT</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">DLIB_JPEG_SUPPORT</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">NDEBUG</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">DLIB_USE_BLAS</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">DLIB_USE_LAPACK</span></code></pre></figure>
+
+<p><img src="/img/pp_macros.png" alt="Preprocessor Macros" /></p>
+
+<p>That is all you need to do to add dlib to your project. In some cases you might get ‘BITCODE Error’ in that case just set enable Bitcode to ‘NO’ in the Build Settings.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>This post assumes that the reader is using XCode 8+ and Swift 3+ results may vary for older versions of xcode. To use dlib in your swift projects you would need to write a wrapper class. A great example is this <a href="https://github.com/zweigraf/face-landmarking-ios">github project</a>. It uses dlibs facial feature detection. The author has created a ObjectiveC++ wrapper that he is then able to use with swift. I’ll probably do another post later on how to go about writing a wrapper class.</p>
+
+</section>
+</article>
+
+<!-- Post navigation -->
+
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+	/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+</style>
+<div id="mc_embed_signup">
+<form action="//github.us15.list-manage.com/subscribe/post?u=9b45e11b10e51e2e786dcad04&amp;id=2221bf0e2c" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+	<h2>Subscribe to our mailing list</h2>
+<div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+<div class="mc-field-group">
+	<label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
+</label>
+	<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+</div>
+<div class="mc-field-group">
+	<label for="mce-FNAME">First Name </label>
+	<input type="text" value="" name="FNAME" class="" id="mce-FNAME">
+</div>
+<div class="mc-field-group">
+	<label for="mce-LNAME">Last Name </label>
+	<input type="text" value="" name="LNAME" class="" id="mce-LNAME">
+</div>
+	<div id="mce-responses" class="clear">
+		<div class="response" id="mce-error-response" style="display:none"></div>
+		<div class="response" id="mce-success-response" style="display:none"></div>
+	</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_9b45e11b10e51e2e786dcad04_2221bf0e2c" tabindex="-1" value=""></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </div>
+</form>
+</div>
+
+<!--End mc_embed_signup-->
+
+<!-- Disqus -->
+
+
+<!-- Muut -->
+
+
+
+    </div>
+    
+<script src="/js/katex_init.js"></script>
+
+
+
+<footer class="site-footer">
+	<p class="text">Powered by <a href="http://jekyllrb.com">Jekyll</a> with <a href="https://rohanchandra.github.io/project/type/">Type Theme</a>
+</p>
+</footer>
+
+
+  </body>
+</html>
