@@ -6,45 +6,52 @@
 	<meta name="description" content="Introductiondlib is a C++ machine learning library that is used to create powerful real world application. It is used in many computer vision and machine lea...">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-Frame-Options" content="sameorigin">
-
+	
 	<!-- CSS -->
 	<link rel="stylesheet" href="/css/main.css">
-
+	
 	<!--Favicon-->
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-
+	
 	<!-- Canonical -->
 	<link rel="canonical" href="https://oktapodi.github.io/2017/05/29/getting-started-with-dlib-on-ios.html">
-
+	
 	<!-- RSS -->
 	<link rel="alternate" type="application/atom+xml" title="Implement" href="https://oktapodi.github.io/feed.xml" />
-
+	
 	<!-- Font Awesome -->
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-
+	
 	<!-- Google Fonts -->
 	
 	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
 	
-
+	
 	<!-- KaTeX -->
 	
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css">
 	<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.js"></script>
 	
-
+	
 	<!-- Google Analytics -->
 	
 	<script>
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	ga('create', 'UA-98096444-1', 'auto');
-	ga('send', 'pageview');
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		ga('create', 'UA-98096444-1', 'auto');
+		ga('send', 'pageview');
 	</script>
 	
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script>
+		(adsbygoogle = window.adsbygoogle || []).push({
+			google_ad_client: "ca-pub-4107295384129771",
+			enable_page_level_ads: true
+		});
+	</script>
 </head>
 
   <body>
@@ -173,22 +180,22 @@ Since its a C++ library it might seem a little hard to get it working with you i
 <a href="http://dlib.net/files/dlib-19.4.tar.bz2">Start by downloading dlib from here</a> and save it in a directory you can work from.
 We will need to have X11, and CMake installed on our system. If you do not have cmake you can istall it via homebrew.</p>
 
-<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">brew install cmake</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="go">brew install cmake</span></code></pre></figure>
 
 <ul>
   <li>Navigate to the examples folder inside the dlib folder via your terminal.</li>
   <li>Create a new folder called ‘build’</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">mkdir build &amp;&amp; cd build</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="go">mkdir build &amp;&amp; cd build</span></code></pre></figure>
 
 <ul>
   <li>Run the following commands</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">cmake -G Xcode ..</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="go">cmake -G Xcode ..</span></code></pre></figure>
 
-<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">cmake --build . --config Release</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="go">cmake --build . --config Release</span></code></pre></figure>
 
 <p>An Xcode project will be created under build/dlib_build</p>
 
@@ -208,21 +215,21 @@ Copy the ‘dlib’ folder from the ‘dlib-19.2’ folder and paste it into the
 
 <p>In your Xcode project open ‘Build Settings’ tab and add the following under ‘Library Search Paths’ and ‘Header Search Paths’</p>
 
-<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">$(PROJECT_DIR)/lib</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="gp">$</span><span class="o">(</span>PROJECT_DIR<span class="o">)</span>/lib</code></pre></figure>
 
 <p>This will let Xcode know where the dlib files are.</p>
 
 <p>Next we need to add some preprocessor macros to help Xcode xompile the dlib files properly.</p>
 
-<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">DLIB_NO_GUI_SUPPORT</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="go">DLIB_NO_GUI_SUPPORT</span></code></pre></figure>
 
-<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">DLIB_JPEG_SUPPORT</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="go">DLIB_JPEG_SUPPORT</span></code></pre></figure>
 
-<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">NDEBUG</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="go">NDEBUG</span></code></pre></figure>
 
-<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">DLIB_USE_BLAS</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="go">DLIB_USE_BLAS</span></code></pre></figure>
 
-<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="err">DLIB_USE_LAPACK</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell_session" data-lang="shell_session"><span class="go">DLIB_USE_LAPACK</span></code></pre></figure>
 
 <p><img src="/img/pp_macros.png" alt="Preprocessor Macros" /></p>
 
